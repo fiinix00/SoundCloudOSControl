@@ -3,5 +3,10 @@ Make or edit a existing shortcut pointing against chrome with debugging paramete
 
 Start application and use
 
+Ctrl+Win+Up: To increase volume
+Ctrl+Win+Down: To lower volume
+
 Ctrl+Win+Left: To go to previous song
 Ctrl+Win+Right: To go to next song
+
+Ctrl+Win+Enter: To pause song
