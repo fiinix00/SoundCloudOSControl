@@ -1,5 +1,6 @@
 ﻿using ChromeAutomation;
 using System;
+using System.Drawing;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,11 +12,13 @@ namespace SoundCloudOSControl
     {
         public static void Main(string[] args)
         {
-            var form = new SoundCloundListenerForm 
-            { 
-                Opacity = 0, 
-                WindowState = FormWindowState.Minimized, 
-                FormBorderStyle = FormBorderStyle.None, 
+            var form = new SoundCloundListenerForm
+            {
+                Opacity = 0,
+                Size = new Size(0, 0),
+                StartPosition = FormStartPosition.Manual,
+                Location = new Point(0, 0),
+                FormBorderStyle = FormBorderStyle.None,
             };
 
             Application.Run(form);
