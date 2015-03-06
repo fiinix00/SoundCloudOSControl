@@ -22,7 +22,14 @@ namespace SoundCloudOSControl
 
                     var soundcloud = sessions.FirstOrDefault(session => new Uri(session.url).Host == "soundcloud.com");
 
-                    _chrome.SetActiveSession(soundcloud.webSocketDebuggerUrl);
+                    if (soundcloud != null && soundcloud.webSocketDebuggerUrl != null)
+                    {
+                        _chrome.SetActiveSession(soundcloud.webSocketDebuggerUrl);
+                    }
+                    else
+                    {
+                        _chrome = null;
+                    }
                 }
 
                 return _chrome;
