@@ -32,10 +32,12 @@ namespace SoundCloudOSControl
         public static async void Click(string _class)
         {
             var cts = new CancellationTokenSource();
-            cts.CancelAfter(5000);
+            
 
             try
             {
+                cts.CancelAfter(5000);
+
                 await Task.Run(() =>
                 {
                     var chrome = Chrome;
