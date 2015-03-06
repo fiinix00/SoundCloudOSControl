@@ -1,0 +1,7 @@
+Make or edit a existing shortcut pointing against chrome with debugging parameter.
+"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --remote-debugging-port=9222
+
+Start application and use
+
+Ctrl+Win+Left: To go to previous song
+Ctrl+Win+Left: To go to next song
