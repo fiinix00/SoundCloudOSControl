@@ -10,29 +10,34 @@ namespace SoundCloudOSControl
 {
     public static class ChromeRemote
     {
+        private static object lockObject = new object();
+
         private static Chrome _chrome;
         private static Chrome Chrome
         {
             get
             {
-                if (_chrome == null)
+                lock (lockObject)
                 {
-                    _chrome = new Chrome("http://localhost:9222");
-                    var sessions = _chrome.GetAvailableSessions();
-
-                    var soundcloud = sessions.FirstOrDefault(session => new Uri(session.url).Host == "soundcloud.com");
-
-                    if (soundcloud != null && soundcloud.webSocketDebuggerUrl != null)
+                    if (_chrome == null)
                     {
-                        _chrome.SetActiveSession(soundcloud.webSocketDebuggerUrl);
+                        _chrome = new Chrome("http://localhost:9222");
+                        var sessions = _chrome.GetAvailableSessions();
+
+                        var soundcloud = sessions.FirstOrDefault(session => new Uri(session.url).Host == "soundcloud.com");
+
+                        if (soundcloud != null && soundcloud.webSocketDebuggerUrl != null)
+                        {
+                            _chrome.SetActiveSession(soundcloud.webSocketDebuggerUrl);
+                        }
+                        else
+                        {
+                            _chrome = null;
+                        }
                     }
-                    else
-                    {
-                        _chrome = null;
-                    }
+
+                    return _chrome;
                 }
-
-                return _chrome;
             }
         }
 
