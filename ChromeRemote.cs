@@ -36,11 +36,15 @@ namespace SoundCloudOSControl
             }
         }
 
-        public static async void Click(string _class)
+        public static void Click(string _class)
+        {
+            Send("document.querySelectorAll('" + _class + "')[0].click();");
+        }
+
+        public static async void Send(string data)
         {
             var cts = new CancellationTokenSource();
             
-
             try
             {
                 cts.CancelAfter(5000);
@@ -54,7 +58,7 @@ namespace SoundCloudOSControl
                     }
                     else
                     {
-                        chrome.Eval("document.querySelectorAll('" + _class + "')[0].click();");
+                        chrome.Eval(data);
                     }
                 });
             }

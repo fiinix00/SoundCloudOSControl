@@ -26,8 +26,13 @@ namespace SoundCloudOSControl
 
         public partial class SoundCloundListenerForm : Form
         {
-            private const int CTRL_WIN_LEFT = 1;
-            private const int CTRL_WIN_RIGHT = 2;
+            private const int CTRL_WIN_UP = 0x26;
+            private const int CTRL_WIN_DOWN = 0x28;
+
+            private const int CTRL_WIN_LEFT = 0x25;
+            private const int CTRL_WIN_RIGHT = 0x27;
+            
+            private const int CTRL_WIN_ENTER = 0x0D;
 
             protected override void OnVisibleChanged(EventArgs e)
             {
@@ -37,22 +42,24 @@ namespace SoundCloudOSControl
 
             protected override void OnLoad(EventArgs e)
             {
-                var ctrl_win = WindowsShell.MOD_CONTROL | WindowsShell.MOD_WIN | WindowsShell.MOD_NOREPEAT;
-
-                WindowsShell.RegisterHotKey(this.Handle, CTRL_WIN_LEFT, ctrl_win, 0x25);
-                WindowsShell.RegisterHotKey(this.Handle, CTRL_WIN_RIGHT, ctrl_win, 0x27);
+                WinKey.Register(this, CTRL_WIN_UP);
+                WinKey.Register(this, CTRL_WIN_DOWN);
+                
+                WinKey.Register(this, CTRL_WIN_LEFT);
+                WinKey.Register(this, CTRL_WIN_RIGHT);
+                
+                WinKey.Register(this, CTRL_WIN_ENTER);
 
                 base.OnLoad(e);
             }
 
-            protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
+            private static string volume(bool increase)
             {
-                WindowsShell.UnregisterHotKey(this, CTRL_WIN_LEFT);
-                WindowsShell.UnregisterHotKey(this, CTRL_WIN_RIGHT);
+                var sign = (increase ? " + " : " - ");
 
-                base.OnClosing(e);
+                return "webpackJsonp([],{0:function(exports,instance,globals){for(var i=0;i<100;i++)if('getVolume' in globals(i)){var audioManager=globals(i);audioManager.setVolume(audioManager.getVolume()" + sign + ".2);break}}});";
             }
-                        
+
             protected override void WndProc(ref Message m)
             {
                 base.WndProc(ref m);
@@ -61,11 +68,17 @@ namespace SoundCloudOSControl
                 {
                     switch (m.WParam.ToInt32())
                     {
+                        case CTRL_WIN_UP: ChromeRemote.Send(volume(true)); break;
+                        case CTRL_WIN_DOWN: ChromeRemote.Send(volume(false)); break;
+
                         case CTRL_WIN_LEFT: ChromeRemote.Click(".skipControl__previous"); break;
                         case CTRL_WIN_RIGHT: ChromeRemote.Click(".skipControl__next"); break;
+
+                        case CTRL_WIN_ENTER: ChromeRemote.Click(".playControl"); break;
                     }
                 }
             }
         }
     }
 }
+
