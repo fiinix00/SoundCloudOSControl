@@ -11,7 +11,14 @@ namespace SoundCloudOSControl
     {
         public static void Main(string[] args)
         {
-            Application.Run(new SoundCloundListenerForm());
+            var form = new SoundCloundListenerForm 
+            { 
+                Opacity = 0, 
+                WindowState = FormWindowState.Minimized, 
+                FormBorderStyle = FormBorderStyle.None, 
+            };
+
+            Application.Run(form);
         }
 
         public partial class SoundCloundListenerForm : Form
